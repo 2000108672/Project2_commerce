@@ -2,6 +2,34 @@
 
 {% block body %}
     <h2>Active Listings</h2>
+    <form action= "{% url 'displayCategory' %}" method="POST" class="my-3">
+        {% csrf_token %}
 
-    TODO
+        <!-- Display a label and a dropdown menu of available categories -->
+        <label for="category">Choose a category:</label>
+        <select name="category" id="category">
+            {% for cat in categories %}
+                <option value="{{ cat }}">{{ cat }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-warning">Select</button>
+    </form>
+    <div class="row mx-3">
+        {% for listing in listings %}
+
+            <!-- Display a card with the details of each listing -->
+            <div class="card mx-3" style="width: 18rem;">
+                <img class="card-img-top" src="{{ listing.imageUrl }}" alt="{{ listing.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ listing.title }}</h5>
+                    <p class="card-text">{{ listing.description }}</p>
+
+                    <!-- Display a link to view the details of the listing -->
+                    <a href="{% url 'listing' id=listing.id %}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
 {% endblock %}
